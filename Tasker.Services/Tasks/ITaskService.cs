@@ -1,5 +1,4 @@
-﻿using Tasker.Services.DTO;
-using Tasker.Services.DTO.TaskDTOs;
+﻿using Tasker.Services.DTO.TaskDTOs;
 using Tasker.Services.Pagination;
 
 namespace Tasker.Services.Tasks
@@ -11,6 +10,11 @@ namespace Tasker.Services.Tasks
         Task<TaskGetDto> GetTaskAsync(int taskId);
 
         Task<TaskGetDto> CreateTaskAsync(TaskCreateDto task);
+
+        Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
+
+        Task<TaskGetDto> DeleteTaskAsync(int taskId);
+
         //Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
         //Task<TaskGetDto> DeleteTaskAsync(int taskId);
     }

@@ -1,4 +1,4 @@
-﻿namespace Tasker.Services.DTO;
+﻿namespace Tasker.Services.Tasks;
 
 public class SearchParams
 {

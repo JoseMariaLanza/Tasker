@@ -7,9 +7,11 @@ namespace Tasker.Repositories.Tasks.Models
     {
         public TaskItem()
         {
-            PriorityId = (int)Priorities.VeryLow;
-            AssignedUser = null;
-            AssignedUserId = null;
+            //PriorityId = (int)Priorities.VeryLow;
+            //AssignedUser = null;
+            //AssignedUserId = null;
+            //Categories = new List<TaskItemCategory>();
+            //SubTasks = new List<TaskItem>();
         }
 
         public int Id { get; set; }
@@ -39,7 +41,9 @@ namespace Tasker.Repositories.Tasks.Models
 
         public virtual ICollection<TaskItem> SubTasks { get; set; }
 
-        public virtual List<TaskItemCategory> TaskItemCategories { get; set; }
+        public List<TaskItemCategory>? TaskItemCategories { get; set; } = new();
+
+        public bool IsActive { get; set; }
         
     }
 

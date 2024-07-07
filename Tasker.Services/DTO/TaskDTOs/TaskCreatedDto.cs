@@ -3,8 +3,12 @@ using Tasker.Repositories.Tasks.Models;
 
 namespace Tasker.Services.DTO.TaskDTOs
 {
-    public class TaskCreateDto
+    public class TaskCreatedDto
     {
+        [Required]
+        [Display(Name = "Task Id")]
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "Task name")]
         public string Name { get; set; }
@@ -16,10 +20,10 @@ namespace Tasker.Services.DTO.TaskDTOs
         public Priorities Priority { get; set; }
 
         [Display(Name = "Parent task (Is subtask of another task")]
-        public int? ParentTaskId { get; set; }
+        public int? ParentTaskId { get; set; } = null;
 
         [Required]
-        [Display(Name = "Categories")]
+        [Display(Name = "Selected category Ids")]
         public List<int>? CategoryIds { get; set; }
     }
 }

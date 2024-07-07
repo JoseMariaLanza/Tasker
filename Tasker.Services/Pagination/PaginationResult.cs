@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Tasker.Services.Pagination
+﻿namespace Tasker.Services.Pagination
 {
     public class PaginationResult<T>
     {

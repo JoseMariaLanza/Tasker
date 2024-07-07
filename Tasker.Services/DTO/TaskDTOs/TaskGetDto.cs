@@ -35,6 +35,6 @@ namespace Tasker.Services.DTO.TaskDTOs
         //public ICollection<TaskItemCategoryGetDto> TaskItemCategories { get; set; }
 
         [Display(Name = "Associated categories")]
-        public ICollection<CategoryGetDto> Categories { get; set; }
+        public ICollection<CategoryGetDto>? Categories { get; set; }
     }
 }

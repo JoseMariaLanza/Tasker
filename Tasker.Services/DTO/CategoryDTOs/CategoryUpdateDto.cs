@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tasker.Services.DTO.TaskDTOs;
 
 namespace Tasker.Services.DTO.CategoryDTOs
 {
-    public class CategoryGetDto
+    public class CategoryUpdateDto
     {
         [Required]
         [Display(Name = "Category Id")]
@@ -13,7 +12,7 @@ namespace Tasker.Services.DTO.CategoryDTOs
         [Display(Name = "Category name")]
         public string Name { get; set; }
 
-        [Display(Name = "Subcategories")]
-        public ICollection<CategoryGetDto> SubCategories { get; set; }
+        [Display(Name = "Parent category (Is subcategory of another category")]
+        public int? ParentCategoryId { get; set; } = null;
     }
 }

@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Tasker.Helpers;
-using Tasker.Services.DTO;
-using Tasker.Services.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Tasker.Services.Pagination;
 using Tasker.Services.DTO.TaskDTOs;
+using Tasker.Services.Pagination;
+using Tasker.Services.Tasks;
 
 namespace Tasker.Controllers
 {
@@ -23,7 +19,6 @@ namespace Tasker.Controllers
             _taskService = taskService;
         }
 
-        // GET: TaskController
         [HttpGet]
         [SwaggerOperation(Summary = "Get filtered tasks.")]
         [SwaggerResponse(200, "Successfuly retrieved task list.", typeof(PaginationResult<TaskGetDto>))]
@@ -34,7 +29,7 @@ namespace Tasker.Controllers
 
             if (result.Count == 0) return ApiResponse.NoContent();
 
-            return ApiResponse.Ok("Successfully retrieved tasks.", "data", result);
+            return ApiResponse.Ok("Tasks retrieved successfuly.", "", result);
         }
 
         [HttpPost]
@@ -47,6 +42,30 @@ namespace Tasker.Controllers
             if (result == null) return ApiResponse.NoContent();
 
             return ApiResponse.Created("Task successfuly created.", "data", result);
+        }
+
+        [HttpPut]
+        [SwaggerOperation(Summary = "Update an existing tastk.")]
+        [SwaggerResponse(200, "Task successfuly updated.", typeof(ApiResponse))]
+        public async Task<IActionResult> UpdateTask([FromBody] TaskUpdateDto task)
+        {
+            var result = await _taskService.UpdateTaskAsync(task);
+
+            if (result is null) return ApiResponse.NoContent();
+
+            return ApiResponse.Ok("Task successfuly updated", "data", result);
+        }
+
+        [HttpDelete]
+        [SwaggerOperation(Summary = "Logic delete an existing task.")]
+        [SwaggerResponse(200, "Task successfuly deleted.", typeof(ApiResponse))]
+        public async Task<IActionResult> DeleteTask([FromRoute] int taskId)
+        {
+            var result = await _taskService.DeleteTaskAsync(taskId);
+
+            if (result is null) return ApiResponse.NotFound("Task does not exists.");
+
+            return ApiResponse.Ok("Task successfuly deleted", "data", result);
         }
     }
 }

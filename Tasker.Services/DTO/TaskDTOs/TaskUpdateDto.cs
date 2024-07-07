@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tasker.Repositories.Tasks.Models;
 
 namespace Tasker.Services.DTO.TaskDTOs
 {
@@ -12,12 +13,17 @@ namespace Tasker.Services.DTO.TaskDTOs
         [Display(Name = "Task name")]
         public string Name { get; set; }
 
-        [Required]
         [Display(Name = "Task description")]
         public string Description { get; set; }
 
-        [Required]
         [Display(Name = "Task priority")]
-        public virtual TaskPriorityDto TaskPriority { get; set; }
+        public Priorities Priority { get; set; }
+
+        [Display(Name = "Parent task (Is subtask of another task")]
+        public int? ParentTaskId { get; set; } = null;
+
+        [Required]
+        [Display(Name = "Selected category Ids")]
+        public List<int>? CategoryIds { get; set; }
     }
 }

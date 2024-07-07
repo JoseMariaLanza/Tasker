@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tasker.Repositories.Tasks.Models;
 
-namespace Tasker.Repositories.Tasks
+namespace Tasker.Services.Tasks
 {
     public static class QueryFilters
     {

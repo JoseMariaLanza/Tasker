@@ -12,13 +12,14 @@ using Tasker.Repositories.Tasks;
 namespace Tasker.Repositories.Migrations.TaskDb
 {
     [DbContext(typeof(TaskDbContext))]
-    [Migration("20231212004514_InitialTaskMigration")]
-    partial class InitialTaskMigration
+    [Migration("20240707164751_Update_Database")]
+    partial class Update_Database
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("TaskItems")
                 .HasAnnotation("ProductVersion", "6.0.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -42,24 +43,7 @@ namespace Tasker.Repositories.Migrations.TaskDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserType");
-                });
-
-            modelBuilder.Entity("Tasker.Repositories.Tasks.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Category");
+                    b.ToTable("UserType", "TaskItems");
                 });
 
             modelBuilder.Entity("Tasker.Repositories.Tasks.Models.TaskItem", b =>
@@ -76,6 +60,9 @@ namespace Tasker.Repositories.Migrations.TaskDb
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -90,7 +77,60 @@ namespace Tasker.Repositories.Migrations.TaskDb
 
                     b.HasIndex("ParentTaskId");
 
-                    b.ToTable("TaskItems");
+                    b.ToTable("TaskItems", "TaskItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Task item 1 description",
+                            IsActive = true,
+                            Name = "Task item 1",
+                            PriorityId = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Task item 2 description",
+                            IsActive = true,
+                            Name = "Task item 2",
+                            PriorityId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Task item 3 description",
+                            IsActive = true,
+                            Name = "Task item 3",
+                            ParentTaskId = 1,
+                            PriorityId = 4
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Task item 4 description",
+                            IsActive = true,
+                            Name = "Task item 4",
+                            ParentTaskId = 6,
+                            PriorityId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Task item 5 description",
+                            IsActive = true,
+                            Name = "Task item 5",
+                            PriorityId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Task item 6 description",
+                            IsActive = true,
+                            Name = "Task item 6",
+                            ParentTaskId = 1,
+                            PriorityId = 5
+                        });
                 });
 
             modelBuilder.Entity("Tasker.Repositories.Tasks.Models.TaskItemCategory", b =>
@@ -103,9 +143,7 @@ namespace Tasker.Repositories.Migrations.TaskDb
 
                     b.HasKey("TaskItemId", "CategoryId");
 
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("TaskItemCategory");
+                    b.ToTable("TaskItemCategories", "TaskItems");
                 });
 
             modelBuilder.Entity("Tasker.Repositories.Tasks.Models.TaskItem", b =>
@@ -119,26 +157,11 @@ namespace Tasker.Repositories.Migrations.TaskDb
 
             modelBuilder.Entity("Tasker.Repositories.Tasks.Models.TaskItemCategory", b =>
                 {
-                    b.HasOne("Tasker.Repositories.Tasks.Models.Category", "Category")
-                        .WithMany("TaskItemCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tasker.Repositories.Tasks.Models.TaskItem", "TaskItem")
+                    b.HasOne("Tasker.Repositories.Tasks.Models.TaskItem", null)
                         .WithMany("TaskItemCategories")
                         .HasForeignKey("TaskItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("TaskItem");
-                });
-
-            modelBuilder.Entity("Tasker.Repositories.Tasks.Models.Category", b =>
-                {
-                    b.Navigation("TaskItemCategories");
                 });
 
             modelBuilder.Entity("Tasker.Repositories.Tasks.Models.TaskItem", b =>

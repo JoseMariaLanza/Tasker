@@ -1,16 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tasker.Repositories.Tasks;
-//using Tasker.Helpers;
-//using Tasker.Services;
-using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Tasker.Services.Tasks;
+﻿using AuthOrchestrator.Jwt;
 using AuthOrchestrator.Redis;
-using Tasker.Services;
-using Tasker.Repositories.Auth;
-using AuthOrchestrator.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
+using Tasker.Repositories.Auth;
+using Tasker.Repositories.Categories;
+using Tasker.Repositories.Tasks;
+using Tasker.Services;
+using Tasker.Services.Categories;
+using Tasker.Services.Tasks;
 
 namespace Tasker
 {
@@ -18,8 +19,23 @@ namespace Tasker
     {
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<IAuthDbContext, AuthDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TaskerConnection")));
-            services.AddDbContext<ITaskDbContext, TaskDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TaskerConnection")));
+            services.AddDbContext<IAuthDbContext, AuthDbContext>(
+                options => options.UseSqlServer(
+                    configuration.GetConnectionString("TaskerConnection")
+                    )
+                );
+            services.AddDbContext<ITaskDbContext, TaskDbContext>(
+                options => options.UseSqlServer(
+                    configuration.GetConnectionString("TaskerConnection"),
+                    o => o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Tasks")
+                    )
+                );
+            services.AddDbContext<ICategoryDbContext, CategoryDbContext>(
+                options => options.UseSqlServer(
+                    configuration.GetConnectionString("TaskerConnection"),
+                    o => o.MigrationsHistoryTable(HistoryRepository.DefaultTableName, "Categories")
+                    )
+                );
         }
 
         public static void ConfigureDependencies(this IServiceCollection services)
@@ -27,6 +43,8 @@ namespace Tasker
             //services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ITaskService, TaskService>();
             services.AddScoped<ITaskRepository, TaskRepository>();
         }
