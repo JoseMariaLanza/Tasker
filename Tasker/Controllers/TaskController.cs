@@ -59,7 +59,7 @@ namespace Tasker.Controllers
         [HttpDelete]
         [SwaggerOperation(Summary = "Logic delete an existing task.")]
         [SwaggerResponse(200, "Task successfuly deleted.", typeof(ApiResponse))]
-        public async Task<IActionResult> DeleteTask([FromRoute] int taskId)
+        public async Task<IActionResult> DeleteTask([FromRoute] Guid taskId)
         {
             var result = await _taskService.DeleteTaskAsync(taskId);
 

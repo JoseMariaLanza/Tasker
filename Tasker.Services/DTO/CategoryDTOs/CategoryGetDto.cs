@@ -7,7 +7,7 @@ namespace Tasker.Services.DTO.CategoryDTOs
     {
         [Required]
         [Display(Name = "Category Id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Display(Name = "Category name")]

@@ -13,7 +13,7 @@ namespace Tasker.Services.DTO.TaskDTOs
     {
         [Required]
         [Display(Name = "Task Id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Display(Name = "Task name")]

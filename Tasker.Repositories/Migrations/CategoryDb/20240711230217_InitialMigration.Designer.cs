@@ -12,8 +12,8 @@ using Tasker.Repositories.Categories;
 namespace Tasker.Repositories.Migrations.CategoryDb
 {
     [DbContext(typeof(CategoryDbContext))]
-    [Migration("20240707164807_Update_Database")]
-    partial class Update_Database
+    [Migration("20240711230217_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,11 +27,15 @@ namespace Tasker.Repositories.Migrations.CategoryDb
 
             modelBuilder.Entity("Tasker.Repositories.Categories.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -40,8 +44,11 @@ namespace Tasker.Repositories.Migrations.CategoryDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentCategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("ParentCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -52,28 +59,36 @@ namespace Tasker.Repositories.Migrations.CategoryDb
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("dd1fa9ba-844a-4835-8479-b8a35926d240"),
+                            CreatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 30, DateTimeKind.Local).AddTicks(9289),
                             IsActive = true,
-                            Name = "Category 1"
+                            Name = "Professional growth",
+                            UpdatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 32, DateTimeKind.Local).AddTicks(9600)
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("823b62a1-45e3-4daa-b398-7563e5178cec"),
+                            CreatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1559),
                             IsActive = true,
-                            Name = "Category 2"
+                            Name = "Health",
+                            UpdatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1562)
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("3e2b8a14-0b3f-4f92-ba71-0325fdff998c"),
+                            CreatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1571),
                             IsActive = true,
-                            Name = "Category 3"
+                            Name = "Relationship",
+                            UpdatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1572)
                         },
                         new
                         {
-                            Id = 4,
+                            Id = new Guid("cdd240ea-6013-4970-8115-c27809408d1f"),
+                            CreatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1574),
                             IsActive = true,
-                            Name = "Category 4",
-                            ParentCategoryId = 1
+                            Name = "Mindfulness",
+                            ParentCategoryId = new Guid("823b62a1-45e3-4daa-b398-7563e5178cec"),
+                            UpdatedAt = new DateTime(2024, 7, 11, 20, 2, 17, 33, DateTimeKind.Local).AddTicks(1574)
                         });
                 });
 

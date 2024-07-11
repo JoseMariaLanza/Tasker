@@ -8,13 +8,13 @@ namespace Tasker.Services.Categories
     {
         Task<PaginationResult<CategoryGetDto>> GetFilteredCategoriesAsync(SearchParams searchParams, PaginationParams paginationParams);
         
-        Task<CategoryGetDto> GetCategoryAsync(int categoryId);
+        Task<CategoryGetDto> GetCategoryAsync(Guid categoryId);
 
         Task<CategoryGetDto> CreateCategoryAsync(CategoryCreateDto category);
 
         Task<CategoryGetDto> UpdateCategoryAsync(CategoryUpdateDto category);
 
-        Task<CategoryGetDto> DeleteCategoryAsync(int categoryId);
+        Task<CategoryGetDto> DeleteCategoryAsync(Guid categoryId);
 
         //Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
         //Task<TaskGetDto> DeleteTaskAsync(int taskId);

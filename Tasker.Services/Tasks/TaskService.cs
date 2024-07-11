@@ -24,7 +24,7 @@ namespace Tasker.Services.Tasks
 
         public async Task<PaginationResult<TaskGetDto>> GetFilteredTasksAsync(SearchParams searchParams, PaginationParams paginationParams)
         {
-            var query = _taskRepository.Query();
+            var query = searchParams.getSubTasks ? _taskRepository.Query(searchParams.ParentTaskId) : _taskRepository.Query();
 
             if (searchParams.Term is not null)
             {
@@ -35,20 +35,20 @@ namespace Tasker.Services.Tasks
                 query = query.FilterByCategories(searchParams.Categories);
             }
 
-
             var tasks = await _taskRepository.GetFilteredTasksAsync(query, searchParams.Term, searchParams.Categories, paginationParams.Offset, paginationParams.Limit);
 
+            List<Category>? relatedCategories;
 
-            List<Category>? relatedCategories = null;
+            //if (searchParams.AsTreeView)
+            //{
             foreach (var task in tasks)
             {
                 await _taskRepository.LoadSubTasksRecursively(task);
                 //List<int> categorySearchList = searchParams.Categories?.Count() > 0 ?
                 //    searchParams.Categories :
                 //    task.TaskItemCategories.Select(x => x.CategoryId).ToList();
-
-                //relatedCategories = await _taskRepository.LoadSubTasksCategoriesAsync(task, null);
             }
+            //}
 
             var tasksGetDto = _mapper.Map<List<TaskGetDto>>(tasks);
 
@@ -61,9 +61,6 @@ namespace Tasker.Services.Tasks
                     var categoriesGetDto = _mapper.Map<List<CategoryGetDto>>(relatedCategories);
 
                     taskGetDto.Categories = categoriesGetDto;
-                    //foreach (var taskGetDto in tasksGetDto)
-                    //{
-                    //}
                 }
             }
 
@@ -78,7 +75,7 @@ namespace Tasker.Services.Tasks
             };
         }
 
-        public async Task<TaskGetDto> GetTaskAsync(int taskId)
+        public async Task<TaskGetDto> GetTaskAsync(Guid taskId)
         {
             var task = await _taskRepository.GetTaskByIdAsync(taskId);
 
@@ -103,42 +100,56 @@ namespace Tasker.Services.Tasks
 
             var newTask = await _taskRepository.CreateTaskAsync(taskModel, task.CategoryIds);
 
-            return _mapper.Map<TaskGetDto>(newTask);
+            var taskGetDto = _mapper.Map<TaskGetDto>(newTask);
+            List<Category>? relatedCategories;
+
+            relatedCategories = await _taskRepository.LoadTasksCategoriesAsync(taskGetDto.Id, null);
+
+            if (relatedCategories is not null)
+            {
+                var categoriesGetDto = _mapper.Map<List<CategoryGetDto>>(relatedCategories);
+
+                taskGetDto.Categories = categoriesGetDto;
+            }
+
+            return taskGetDto;
         }
 
         public async Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task)
         {
-
             var depth = await CalculateDepth(task.ParentTaskId);
             if (depth >= 64)
             {
                 throw new InvalidOperationException("The task hierarchy exceeds the maximum allowed depth.");
             }
-
-            //var taskItemCategories = task.CategoryIds.Distinct().Select(categoryId => new TaskItemCategory
-            //{
-            //    TaskItemId = task.Id,
-            //    CategoryId = categoryId
-            //}).ToList();
             
-
             var taskModel = _mapper.Map<TaskItem>(task);
-            //taskModel.Categories = taskItemCategories;
 
-            var updatedTask = await _taskRepository.UpdateTaskAsync(taskModel, taskModel.TaskItemCategories);
+            var taskItemList = taskModel.TaskItemCategories.ToList();
 
-            var taskItem = _mapper.Map<TaskGetDto>(updatedTask);
+            var updatedTask = await _taskRepository.UpdateTaskAsync(taskModel, taskItemList);
 
-            //return _mapper.Map<TaskGetDto>(newTask);
-            return taskItem;
+            var taskGetDto = _mapper.Map<TaskGetDto>(updatedTask);
+            List<Category>? relatedCategories;
+
+            relatedCategories = await _taskRepository.LoadTasksCategoriesAsync(taskGetDto.Id, null);
+
+            if (relatedCategories is not null)
+            {
+                var categoriesGetDto = _mapper.Map<List<CategoryGetDto>>(relatedCategories);
+
+                taskGetDto.Categories = categoriesGetDto;
+            }
+
+            return taskGetDto;
         }
 
-        public async Task<TaskGetDto> DeleteTaskAsync(int taskId)
+        public async Task<TaskGetDto> DeleteTaskAsync(Guid taskId)
         {
             return _mapper.Map<TaskGetDto>(await _taskRepository.DeleteTaskAsync(taskId));
         }
 
-        private async Task<int> CalculateDepth(int? parentTaskId, int currentDepth = 0)
+        private async Task<int> CalculateDepth(Guid? parentTaskId, int currentDepth = 0)
         {
             if (!parentTaskId.HasValue)
             {
@@ -148,8 +159,6 @@ namespace Tasker.Services.Tasks
             var parentTask = await _taskRepository.GetTaskByIdAsync(parentTaskId.Value);
             return await CalculateDepth(parentTask.ParentTaskId, currentDepth + 1);
         }
-
-
 
         //public async Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task)
         //{

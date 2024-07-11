@@ -4,18 +4,18 @@ namespace Tasker.Repositories.Categories
 {
     public interface ICategoryRepository
     {
-        IQueryable<Category> Query(int? categoryId = null);
+        IQueryable<Category> Query(Guid? categoryId = null);
 
         Task<List<Category>> GetFilteredCategoriesAsync(IQueryable<Category> query, string? term, int offset, int? limit);
 
         Task LoadSubCategoriesRecursively(Category category);
 
-        Task<Category> GetCategoryByIdAsync(int id);
+        Task<Category> GetCategoryByIdAsync(Guid id);
 
         Task<Category> CreateCategoryAsync(Category category);
 
         Task<Category> UpdateCategoryAsync(Category category);
 
-        Task<Category> DeleteCategoryAsync(int categoryId);
+        Task<Category> DeleteCategoryAsync(Guid categoryId);
     }
 }

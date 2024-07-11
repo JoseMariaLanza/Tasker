@@ -89,12 +89,15 @@ namespace Tasker.Repositories.Tasks
         }
 
         private static readonly TaskItem[] TaskItemSeed = {
-            new TaskItem { Id = 1, Name = "Task item 1", Description = "Task item 1 description", ParentTaskId = null, PriorityId = 0, IsActive = true},
-            new TaskItem { Id = 2, Name = "Task item 2", Description = "Task item 2 description", ParentTaskId = null, PriorityId = 2, IsActive = true},
-            new TaskItem { Id = 3, Name = "Task item 3", Description = "Task item 3 description", ParentTaskId = 1, PriorityId = 4, IsActive = true},
-            new TaskItem { Id = 4, Name = "Task item 4", Description = "Task item 4 description", ParentTaskId = 6, PriorityId = 1, IsActive = true},
-            new TaskItem { Id = 5, Name = "Task item 5", Description = "Task item 5 description", ParentTaskId = null, PriorityId = 1, IsActive = true},
-            new TaskItem { Id = 6, Name = "Task item 6", Description = "Task item 6 description", ParentTaskId = 1, PriorityId = 5, IsActive = true},
+            new TaskItem { Id = Guid.Parse("d180d2b3-9273-4a1b-87f3-a0218fdfc53e"), Name = "English enhancement", Description = "English study (vocabulary, reading, writing, listening and speaking)", ParentTaskId = null, PriorityId = 0},
+            new TaskItem { Id = Guid.Parse("4a02625a-d4e0-41e8-a205-de8ff8542d26"), Name = "English vocabulary", Description = "Extend my english vocabulary", ParentTaskId = Guid.Parse("d180d2b3-9273-4a1b-87f3-a0218fdfc53e"), PriorityId = 1},
+            new TaskItem { Id = Guid.Parse("12626dda-7659-4fa8-a6c4-e58b186f1ba8"), Name = "Regular and Irregular verbs", Description = "Learn regular and irregular verbs", ParentTaskId = Guid.Parse("4a02625a-d4e0-41e8-a205-de8ff8542d26") , PriorityId = 1},
+            new TaskItem { Id = Guid.Parse("5b5fe954-7966-4968-a6e4-0287e1661060"), Name = "1000 words most used in english", Description = "English most used vocabulary", ParentTaskId = Guid.Parse("4a02625a-d4e0-41e8-a205-de8ff8542d26"), PriorityId = 2},
+            new TaskItem { Id = Guid.Parse("7d08ad0d-2787-4328-9c09-f2e35ae060a3"), Name = "Essential grammar in use", Description = "Grammar study for English improvement", ParentTaskId = Guid.Parse("d180d2b3-9273-4a1b-87f3-a0218fdfc53e"), PriorityId = 1},
+            new TaskItem { Id = Guid.Parse("05d55d08-0132-4549-be1b-3964f9efe03f"), Name = "Advanced grammar in use", Description = "Grammar study for English improvement", ParentTaskId = Guid.Parse("d180d2b3-9273-4a1b-87f3-a0218fdfc53e"), PriorityId = 2},
+            new TaskItem { Id = Guid.Parse("1f11511b-7e2e-49eb-961f-3a267c24b317"), Name = "Business grammar in use", Description = "Grammar study for English improvement", ParentTaskId = Guid.Parse("d180d2b3-9273-4a1b-87f3-a0218fdfc53e"), PriorityId = 3},
+            new TaskItem { Id = Guid.Parse("4e29a8df-a797-44b9-8ee1-3f6d753bb3f1"), Name = "Training routine", Description = "Training routine for body mobility", PriorityId = 1},
+            new TaskItem { Id = Guid.Parse("c9268bec-b436-4e5d-9eab-e30e228acd52"), Name = "Training routine", Description = "Training routine for losing weight", PriorityId = 1},
         };
 
         public IDbContextTransaction BeginTransaction()

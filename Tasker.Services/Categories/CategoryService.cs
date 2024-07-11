@@ -55,7 +55,7 @@ namespace Tasker.Services.Categories
             };
         }
 
-        public async Task<CategoryGetDto> GetCategoryAsync(int categoryId)
+        public async Task<CategoryGetDto> GetCategoryAsync(Guid categoryId)
         {
             var category = await _categoryRepository.GetCategoryByIdAsync(categoryId);
 
@@ -95,12 +95,12 @@ namespace Tasker.Services.Categories
             return categoryItem;
         }
 
-        public async Task<CategoryGetDto> DeleteCategoryAsync(int categoryId)
+        public async Task<CategoryGetDto> DeleteCategoryAsync(Guid categoryId)
         {
             return _mapper.Map<CategoryGetDto>(await _categoryRepository.DeleteCategoryAsync(categoryId));
         }
 
-        private async Task<int> CalculateDepth(int? parentTaskId, int currentDepth = 0)
+        private async Task<int> CalculateDepth(Guid? parentTaskId, int currentDepth = 0)
         {
             if (!parentTaskId.HasValue)
             {

@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Tasker.Repositories.Auth.Models;
+using Tasker.Repositories.Models;
 
 namespace Tasker.Repositories.Tasks.Models
 {
-    public class TaskItem
+    public class TaskItem : BaseModel
     {
         public TaskItem()
         {
@@ -14,7 +15,7 @@ namespace Tasker.Repositories.Tasks.Models
             //SubTasks = new List<TaskItem>();
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
         public int? AssignedUserId { get; set; }
@@ -34,26 +35,24 @@ namespace Tasker.Repositories.Tasks.Models
             }
         }
 
-        public int? ParentTaskId { get; set; }
+        public Guid? ParentTaskId { get; set; }
 
         [ForeignKey(nameof(ParentTaskId))]
         public virtual TaskItem? ParentTask { get; set; }
 
         public virtual ICollection<TaskItem> SubTasks { get; set; }
 
-        public List<TaskItemCategory>? TaskItemCategories { get; set; } = new();
-
-        public bool IsActive { get; set; }
-        
+        public List<TaskItemCategory>? TaskItemCategories { get; set; } = new();        
     }
 
     public enum Priorities
     {
-        VeryLow = 0,
-        Low = 1,
-        Meddium = 2,
+        Infinite = 0,
+        Urgent = 1,
+        VeryHigh = 2,
         High = 3,
-        VeryHigh = 4,
-        Urgent = 5,
+        Meddium = 4,
+        Low = 5,
+        VeryLow = 6,
     }
 }

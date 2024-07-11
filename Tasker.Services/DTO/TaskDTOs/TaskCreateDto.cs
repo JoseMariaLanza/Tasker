@@ -16,10 +16,10 @@ namespace Tasker.Services.DTO.TaskDTOs
         public Priorities Priority { get; set; }
 
         [Display(Name = "Parent task (Is subtask of another task")]
-        public int? ParentTaskId { get; set; }
+        public Guid? ParentTaskId { get; set; }
 
         [Required]
         [Display(Name = "Categories")]
-        public List<int>? CategoryIds { get; set; }
+        public List<Guid>? CategoryIds { get; set; }
     }
 }

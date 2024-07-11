@@ -7,7 +7,7 @@ namespace Tasker.Services.DTO.TaskDTOs
     {
         [Required]
         [Display(Name = "Task Id")]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [Display(Name = "Task name")]
@@ -20,10 +20,10 @@ namespace Tasker.Services.DTO.TaskDTOs
         public Priorities Priority { get; set; }
 
         [Display(Name = "Parent task (Is subtask of another task")]
-        public int? ParentTaskId { get; set; } = null;
+        public Guid? ParentTaskId { get; set; } = null;
 
         [Required]
         [Display(Name = "Selected category Ids")]
-        public List<int>? CategoryIds { get; set; }
+        public List<Guid>? CategoryIds { get; set; }
     }
 }

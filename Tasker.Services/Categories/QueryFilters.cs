@@ -11,7 +11,7 @@ namespace Tasker.Services.Categories
             return query.Where(t => t.Name.Contains(term));
         }
 
-        public static IQueryable<Category> FilterByParentCategory(this IQueryable<Category> query, List<int> parentCategories)
+        public static IQueryable<Category> FilterByParentCategory(this IQueryable<Category> query, List<Guid> parentCategories)
         {
             return query
                 .Where(t => t.SubCategories.Any(sc => parentCategories.Contains(sc.Id)));

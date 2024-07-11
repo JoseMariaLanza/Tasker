@@ -8,13 +8,12 @@ namespace Tasker.Services.Tasks
         public static IQueryable<TaskItem> FilterByNameOrDescription(this IQueryable<TaskItem> query, string term)
         {
             if (string.IsNullOrEmpty(term)) return query;
+            term = term.Trim().ToLower();
             return query
-                //.Include(tc => tc.TaskItemCategories)
-                //.ThenInclude(c => c.Category)
-                .Where(t => t.Name.Contains(term) || t.Description.Contains(term));
+                .Where(t => t.Name.Trim().ToLower().Contains(term) || t.Description.Trim().ToLower().Contains(term));
         }
 
-        public static IQueryable<TaskItem> FilterByCategories(this IQueryable<TaskItem> query, List<int> categories)
+        public static IQueryable<TaskItem> FilterByCategories(this IQueryable<TaskItem> query, List<Guid> categories)
         {
             if (categories is null || !categories.Any()) return query;
             return query
@@ -23,7 +22,7 @@ namespace Tasker.Services.Tasks
                 .Where(t => t.TaskItemCategories.Any(tc => categories.Contains(tc.CategoryId)));
         }
 
-        public static IQueryable<TaskItem> LoadSubTasksAsync(this IQueryable<TaskItem> query, TaskItem taskItem)
+        public static IQueryable<TaskItem> LoadSubTasksRecursively(this IQueryable<TaskItem> query, TaskItem taskItem)
         {
             query
                 .Where(t => t.ParentTaskId == taskItem.Id)

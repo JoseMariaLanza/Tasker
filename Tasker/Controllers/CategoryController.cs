@@ -59,7 +59,7 @@ namespace Tasker.Controllers
         [HttpDelete]
         [SwaggerOperation(Summary = "Logic delete an existing category.")]
         [SwaggerResponse(200, "Category successfuly deleted.", typeof(ApiResponse))]
-        public async Task<IActionResult> DeleteCategory([FromRoute] int categoryId)
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
         {
             var result = await _categoryService.DeleteCategoryAsync(categoryId);
 

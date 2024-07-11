@@ -14,11 +14,10 @@ namespace Tasker.Repositories.Categories
             _categoryDbContext = categoryDbContext;
         }
 
-        public IQueryable<Category> Query(int? categoryId = null)
+        public IQueryable<Category> Query(Guid? categoryId = null)
         {
-            return _categoryDbContext.Categories;
-                    //.Include(t => t.TaskItemCategories)
-                    //    .ThenInclude(ti => ti.TaskItem);
+            return _categoryDbContext.Categories
+                .Where(c => c.ParentCategoryId == categoryId);
         }
 
         public async Task<List<Category>> GetFilteredCategoriesAsync(IQueryable<Category> query, string? term, int offset, int? limit)
@@ -44,7 +43,7 @@ namespace Tasker.Repositories.Categories
             }
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<Category> GetCategoryByIdAsync(Guid id)
         {
             var category = await _categoryDbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category is null)
@@ -97,7 +96,7 @@ namespace Tasker.Repositories.Categories
             }
         }
 
-        public async Task<Category> DeleteCategoryAsync(int categoryId)
+        public async Task<Category> DeleteCategoryAsync(Guid categoryId)
         {
             using var transaction = _categoryDbContext.BeginTransaction();
             try

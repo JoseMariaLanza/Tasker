@@ -20,7 +20,7 @@ namespace Tasker.Repositories.Categories
             modelBuilder.HasDefaultSchema("Categories");
 
             modelBuilder.Entity<Category>().HasData(CategorySeed);
-            modelBuilder.Entity<TaskItemCategory>().HasData(TaskItemCategorySeed);
+            //modelBuilder.Entity<TaskItemCategory>().HasData(TaskItemCategorySeed);
 
             //modelBuilder.Entity<Category>()
             //    .HasMany(c => c.TaskItemCategories)
@@ -66,16 +66,16 @@ namespace Tasker.Repositories.Categories
 
         private static readonly Category[] CategorySeed =
         {
-            new Category { Id = 1, Name = "Category 1", ParentCategoryId = null, IsActive = true },
-            new Category { Id = 2, Name = "Category 2", ParentCategoryId = null, IsActive = true },
-            new Category { Id = 3, Name = "Category 3", ParentCategoryId = null, IsActive = true },
-            new Category { Id = 4, Name = "Category 4", ParentCategoryId = 1, IsActive = true },
+            new Category { Id = Guid.Parse("dd1fa9ba-844a-4835-8479-b8a35926d240"), Name = "Professional growth", ParentCategoryId = null, IsActive = true },
+            new Category { Id = Guid.Parse("823b62a1-45e3-4daa-b398-7563e5178cec"), Name = "Health", ParentCategoryId = null, IsActive = true },
+            new Category { Id = Guid.Parse("3e2b8a14-0b3f-4f92-ba71-0325fdff998c"), Name = "Relationship", ParentCategoryId = null, IsActive = true },
+            new Category { Id = Guid.Parse("cdd240ea-6013-4970-8115-c27809408d1f"), Name = "Mindfulness", ParentCategoryId = Guid.Parse("823b62a1-45e3-4daa-b398-7563e5178cec"), IsActive = true },
         };
 
-        private static readonly TaskItemCategory[] TaskItemCategorySeed = {
-            new TaskItemCategory { TaskItemId = 1, CategoryId = 1 },
-            new TaskItemCategory { TaskItemId = 3, CategoryId = 4 },
-        };
+        //private static readonly TaskItemCategory[] TaskItemCategorySeed = {
+        //    new TaskItemCategory { TaskItemId = 1, CategoryId = 1 },
+        //    new TaskItemCategory { TaskItemId = 3, CategoryId = 4 },
+        //};
 
         public IDbContextTransaction BeginTransaction()
         {
