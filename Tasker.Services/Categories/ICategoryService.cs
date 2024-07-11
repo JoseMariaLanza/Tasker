@@ -15,8 +15,5 @@ namespace Tasker.Services.Categories
         Task<CategoryGetDto> UpdateCategoryAsync(CategoryUpdateDto category);
 
         Task<CategoryGetDto> DeleteCategoryAsync(Guid categoryId);
-
-        //Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
-        //Task<TaskGetDto> DeleteTaskAsync(int taskId);
     }
 }

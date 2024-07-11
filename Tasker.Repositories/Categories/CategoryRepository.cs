@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Threading.Tasks;
 using Tasker.Repositories.Categories.Models;
 
 namespace Tasker.Repositories.Categories
@@ -31,12 +29,10 @@ namespace Tasker.Repositories.Categories
 
         public async Task LoadSubCategoriesRecursively(Category category)
         {
-            // Load the immediate subtasks for the task
             category.SubCategories = await _categoryDbContext.Categories
                                 .Where(st => st.ParentCategoryId == category.Id)
                                 .ToListAsync();
 
-            // Recursively load subtasks for each subtask
             foreach (var subCategory in category.SubCategories)
             {
                 await LoadSubCategoriesRecursively(subCategory);

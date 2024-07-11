@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Tasker.Repositories.Auth.Models;
-//using Tasker.Repositories.Categories;
-//using Tasker.Repositories.Categories.Models;
 using Tasker.Repositories.Tasks.Models;
 
 namespace Tasker.Repositories.Tasks
@@ -10,8 +8,6 @@ namespace Tasker.Repositories.Tasks
     public class TaskDbContext : DbContext, ITaskDbContext
     {
         public DbSet<TaskItem> TaskItems { get; set; }
-        
-        //public DbSet<Category> Categories { get; set; }
 
         public DbSet<TaskItemCategory> TaskItemCategories { get; set; }
 
@@ -19,7 +15,6 @@ namespace Tasker.Repositories.Tasks
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema("TaskItems");
 
             modelBuilder.Entity<TaskItem>()
@@ -34,58 +29,12 @@ namespace Tasker.Repositories.Tasks
 
             modelBuilder.Entity<TaskItem>().HasData(TaskItemSeed);
 
-            //modelBuilder.Entity<TaskItem>()
-            //    .HasMany(t => t.Categories)
-            //    .WithOne(tc => tc.TaskItem)
-            //    .HasForeignKey(tc => tc.TaskItemId);
-
-            //modelBuilder.Entity<Category>()
-            //    .HasMany(c => c.TaskItemCategories)
-            //    .WithOne(tc => tc.Category)
-            //    .HasForeignKey(tc => tc.CategoryId);
-
-            // RENAME TaskItemCategory TABLE to TaskItemCategories
             modelBuilder.Entity<TaskItemCategory>().ToTable("TaskItemCategories");
 
-            // Composite key - TaskItemCategory
             modelBuilder.Entity<TaskItemCategory>()
                 .HasKey(t => new { t.TaskItemId, t.CategoryId });
 
-            //modelBuilder.Ignore<Category>();
             modelBuilder.Ignore<User>();
-
-            //base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<TaskItem>()
-            //    .HasMany(t => t.SubTasks)
-            //    .WithOne(t => t.ParentTask)
-            //    .HasForeignKey(t => t.ParentTaskId)
-            //    .IsRequired(false);
-
-            //modelBuilder.Entity<TaskItem>()
-            //    .HasMany(c => c.Categories)
-            //    .WithOne(c => c.TaskItem)
-            //    .HasForeignKey(c => c.TaskItemId);
-
-            //// RENAME TaskItemCatogory TABLE to TaskItemCategories
-            //modelBuilder.Entity<TaskItemCategory>().ToTable("TaskItemCategories");
-
-            //// Composite key - TaskItemCategory
-            //modelBuilder.Entity<TaskItemCategory>()
-            //    .HasKey(t => new { t.TaskItemId, t.CategoryId });
-
-            //// Many to many
-            //modelBuilder.Entity<TaskItemCategory>()
-            //    .HasOne(pt => pt.TaskItem)
-            //    .WithMany(p => p.Categories)
-            //    .HasForeignKey(pt => pt.TaskItemId);
-
-            //modelBuilder.Entity<TaskItemCategory>()
-            //    .HasOne(pt => pt.Category)
-            //    .WithMany(t => t.TaskItemCategories)
-            //    .HasForeignKey(pt => pt.CategoryId);
-
-            //modelBuilder.Ignore<User>();
         }
 
         private static readonly TaskItem[] TaskItemSeed = {

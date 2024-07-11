@@ -40,7 +40,6 @@ namespace Tasker
 
         public static void ConfigureDependencies(this IServiceCollection services)
         {
-            //services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ICategoryService, CategoryService>();
@@ -115,9 +114,6 @@ namespace Tasker
 
         public static void AddRedisServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //var redisConfig = configuration["Redis:Configuration"];
-            //services.AddSingleton<IRedisHelper, RedisHelper>(sp => new RedisHelper(redisConfig));
-
             var redisSettings = new RedisSettings();
             configuration.GetSection("Redis").Bind(redisSettings);
 

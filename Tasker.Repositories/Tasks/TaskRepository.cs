@@ -28,19 +28,8 @@ namespace Tasker.Repositories.Tasks
         public IQueryable<TaskItem> Query(Guid? taskId = null)
         {
             var allTasks = _taskDbContext.TaskItems;
-                        //.Include(t => t.SubTasks)
-                        //    .ThenInclude(st => st.SubTasks);
-
-            // if taskId es null, then th
-            //if (!asTreeView && taskId is null)
-            //{
-            //    return allTasks;
-            //}
 
             return allTasks.Where(t => t.ParentTaskId == taskId);
-            // TODO: descomentar el where de abajo y agregar propiedad IncludeSubtasks para
-            // incluir las subtasks en la busqueda
-                    //.Where(t => t.ParentTaskId == taskId);
         }
 
         public async Task<List<TaskItem>> GetFilteredTasksAsync(IQueryable<TaskItem> query, string? term, List<Guid>? categories, int offset, int? limit)

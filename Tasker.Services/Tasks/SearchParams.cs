@@ -8,6 +8,4 @@ public class SearchParams
     public Guid? ParentTaskId { get; set; } = null;
 
     public bool getSubTasks { get; set; } = false;
-
-    //public bool AsTreeView { get; set; } = true;
 }

@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using AutoMapper;
-using Tasker.Repositories.Tasks;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Tasker.Services.Pagination;
-using Tasker.Services.DTO.TaskDTOs;
-using Tasker.Repositories.Tasks.Models;
 using Tasker.Repositories.Categories.Models;
+using Tasker.Repositories.Tasks;
+using Tasker.Repositories.Tasks.Models;
 using Tasker.Services.DTO.CategoryDTOs;
-using System.Threading.Tasks;
+using Tasker.Services.DTO.TaskDTOs;
+using Tasker.Services.Pagination;
 
 namespace Tasker.Services.Tasks
 {
@@ -39,16 +38,10 @@ namespace Tasker.Services.Tasks
 
             List<Category>? relatedCategories;
 
-            //if (searchParams.AsTreeView)
-            //{
             foreach (var task in tasks)
             {
                 await _taskRepository.LoadSubTasksRecursively(task);
-                //List<int> categorySearchList = searchParams.Categories?.Count() > 0 ?
-                //    searchParams.Categories :
-                //    task.TaskItemCategories.Select(x => x.CategoryId).ToList();
             }
-            //}
 
             var tasksGetDto = _mapper.Map<List<TaskGetDto>>(tasks);
 
@@ -159,14 +152,5 @@ namespace Tasker.Services.Tasks
             var parentTask = await _taskRepository.GetTaskByIdAsync(parentTaskId.Value);
             return await CalculateDepth(parentTask.ParentTaskId, currentDepth + 1);
         }
-
-        //public async Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task)
-        //{
-        //}
-
-        //public async Task<TaskGetDto> DeleteTaskAsync(int taskId)
-        //{
-        //}
-
     }
 }

@@ -17,8 +17,6 @@ namespace Tasker.Services.Tasks
         {
             if (categories is null || !categories.Any()) return query;
             return query
-                //.Include(tc => tc.TaskItemCategories)
-                //.ThenInclude(c => c.Category)
                 .Where(t => t.TaskItemCategories.Any(tc => categories.Contains(tc.CategoryId)));
         }
 
@@ -28,16 +26,6 @@ namespace Tasker.Services.Tasks
                 .Where(t => t.ParentTaskId == taskItem.Id)
                     .Include(t => t.SubTasks)
                         .ThenInclude(st => st.SubTasks);
-
-            //query
-            //    .Where(t => t.ParentTaskId == taskItem.Id)
-            //    .Include(t => t.TaskItemCategories)
-            //        .ThenInclude(tic => tic.Category).ToList();
-
-            //foreach (var subTask in query)
-            //{
-            //    query.LoadSubTasksAsync(subTask);
-            //}
 
             return query;
         }

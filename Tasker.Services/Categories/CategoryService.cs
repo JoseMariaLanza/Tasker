@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using AutoMapper;
-using Tasker.Repositories.Categories;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Tasker.Services.Pagination;
-using Tasker.Services.DTO.CategoryDTOs;
-using Tasker.Repositories.Tasks.Models;
+using Tasker.Repositories.Categories;
 using Tasker.Repositories.Categories.Models;
-using Tasker.Services.Tasks;
-using System.Threading.Tasks;
+using Tasker.Services.DTO.CategoryDTOs;
+using Tasker.Services.Pagination;
 
 namespace Tasker.Services.Categories
 {
@@ -85,13 +82,11 @@ namespace Tasker.Services.Categories
             }
 
             var categoryModel = _mapper.Map<Category>(category);
-            //categoryModel.Categories = taskItemCategories;
 
             var updatedCategory = await _categoryRepository.UpdateCategoryAsync(categoryModel);
 
             var categoryItem = _mapper.Map<CategoryGetDto>(updatedCategory);
 
-            //return _mapper.Map<CategoryGetDto>(newTask);
             return categoryItem;
         }
 

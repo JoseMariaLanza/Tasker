@@ -9,8 +9,6 @@ namespace Tasker.Repositories.Categories
     {
         public DbSet<Category> Categories { get; }
 
-        //public DbSet<TaskItemCategory> TaskItemCategories { get; }
-
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
         IDbContextTransaction BeginTransaction();

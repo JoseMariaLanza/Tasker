@@ -20,8 +20,5 @@ namespace Tasker.Repositories.Tasks
         Task<TaskItem> UpdateTaskAsync(TaskItem task, List<TaskItemCategory>? categories);
 
         Task<TaskItem> DeleteTaskAsync(Guid taskId);
-
-        //Task<TaskItem> UpdateTaskAsync(TaskItem item);
-        //Task<TaskItem> DeleteTaskAsync(int id);
     }
 }

@@ -14,8 +14,5 @@ namespace Tasker.Services.Tasks
         Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
 
         Task<TaskGetDto> DeleteTaskAsync(Guid taskId);
-
-        //Task<TaskGetDto> UpdateTaskAsync(TaskUpdateDto task);
-        //Task<TaskGetDto> DeleteTaskAsync(int taskId);
     }
 }
