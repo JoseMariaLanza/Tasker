@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Tasker.Helpers;
 using Tasker.Services.DTO.TaskDTOs;
@@ -7,7 +8,7 @@ using Tasker.Services.Tasks;
 
 namespace Tasker.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class TaskController : Controller

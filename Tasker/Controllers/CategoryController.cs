@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using Tasker.Helpers;
+using Tasker.Services.Categories;
 using Tasker.Services.DTO.CategoryDTOs;
 using Tasker.Services.Pagination;
-using Tasker.Services.Categories;
 
 namespace Tasker.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CategoryController : Controller

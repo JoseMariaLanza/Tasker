@@ -1,15 +1,16 @@
 ﻿using AuthOrchestrator.Jwt;
 using AuthOrchestrator.Redis;
+using AuthOrchestrator.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Tasker.Repositories.Auth;
+//using Tasker.Repositories.Auth;
 using Tasker.Repositories.Categories;
 using Tasker.Repositories.Tasks;
-using Tasker.Services;
+//using Tasker.Services;
 using Tasker.Services.Categories;
 using Tasker.Services.Tasks;
 
@@ -19,11 +20,11 @@ namespace Tasker
     {
         public static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<IAuthDbContext, AuthDbContext>(
-                options => options.UseSqlServer(
-                    configuration.GetConnectionString("TaskerConnection")
-                    )
-                );
+            //services.AddDbContext<IAuthDbContext, AuthDbContext>(
+            //    options => options.UseSqlServer(
+            //        configuration.GetConnectionString("TaskerConnection")
+            //        )
+            //    );
             services.AddDbContext<ITaskDbContext, TaskDbContext>(
                 options => options.UseSqlServer(
                     configuration.GetConnectionString("TaskerConnection"),
@@ -40,7 +41,7 @@ namespace Tasker
 
         public static void ConfigureDependencies(this IServiceCollection services)
         {
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            //services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();

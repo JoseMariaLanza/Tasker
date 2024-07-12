@@ -1,6 +1,7 @@
 ﻿using AuthOrchestrator.Redis;
-using Tasker.Repositories.Auth.Models;
-using Tasker.Services;
+//using Tasker.Repositories.Auth.Models;
+//using Tasker.Services;
+using AuthOrchestrator.Auth;
 
 namespace Tasker.Middlewares
 {
