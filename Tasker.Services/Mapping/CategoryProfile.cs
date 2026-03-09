@@ -4,9 +4,9 @@ using Tasker.Services.DTO.CategoryDTOs;
 
 namespace Tasker.Services.Mapping
 {
-    public class CategorProfile : Profile
+    public class CategoryProfile : Profile
     {
-        public CategorProfile()
+        public CategoryProfile()
         {
             CreateMap<Category, CategoryGetDto>()
                 .ForMember(dest => dest.SubCategories, opt => opt.MapFrom(src => src.SubCategories));
