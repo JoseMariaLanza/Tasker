@@ -24,7 +24,7 @@ namespace Tasker
                 x.JsonSerializerOptions.MaxDepth = 80;
             });
             builder.Services.AddAutoMapper(typeof(StartupBase), typeof(TaskProfile));
-            builder.Services.AddAutoMapper(typeof(StartupBase), typeof(CategorProfile));
+            builder.Services.AddAutoMapper(typeof(StartupBase), typeof(CategoryProfile));
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.ConfigureSwagger();
